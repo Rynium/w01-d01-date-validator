@@ -14,7 +14,24 @@
 #
 # This method should, in its final form, not do any output.
 
+require 'pry'
+
 def valid_date?(month, day, year)
-  #write your method here
+  months_31 = [1,3,4,5,7,8,10,12]
+
+
+  #validate month is an integer between 1 and 12
+  if month < 1 || month > 12
+    return FALSE
+  end
+
+  # validate year is an integer between 1880 and 2280
+  if year < 1880 || year > 2280
+    return FALSE
+  end
+
   return true
 end
+
+def valid_date?(num1,num2)
+binding.pry
