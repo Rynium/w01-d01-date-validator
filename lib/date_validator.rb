@@ -29,10 +29,18 @@ def valid_date?(month, day, year)
     return false
   end
 
-  if (months_31.include? month) && !(day < 31 && day >0)
+  if (months_31.include? month) && !(day < 32 && day > 0)
       return false
-  elsif (months_30.include? month) && !(day < 30 && day >0)
+  elsif (months_30.include? month) && !(day < 31 && day > 0)
       return false
+  end
+
+  if (year % 4 == 0 && month == 2) && (year % 100 != 0)
+      return "feb leap"
+  elsif (year % 4 == 0 && month == 2) && ( year % 100 == 0 && year % 400 == 0)
+      return "feb leap"
+  else
+      return "feb non - leap"
   end
 
 
@@ -42,4 +50,4 @@ def valid_date?(month, day, year)
 end
 
 
-valid_date?(11, 30, 1999)
+valid_date?(2, 31, 1880)
