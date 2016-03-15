@@ -15,39 +15,47 @@
 # This method should, in its final form, not do any output.
 
 def valid_date?(month, day, year)
-  months_31 = [1,3,5,7,8,10,12]
-  months_30 = [4,6,9,11]
+ # arrays of 30 and 31 day months not including FEB
+ months_30 = [4, 6, 9, 11]
+ months_31 = [1, 3, 5, 7, 8, 10, 12]
 
-  #validate month is an integer between 1 and 12
-  if month < 1 || month > 12
-    return false
+    #validates the year is between 1880 and 2280 inclusive.
+    if year < 1880 || year > 2280
+        return false
+    end
+
+    # validates that months are between 1 and 12
+    if month < 1 || month > 12
+        return false
+    end
+
+    #validates the day for each month.
+    case month
+
+        #validates day for 31 day month.
+        when 1,3,5,7,8,10,12
+            if !(day < 32 && day > 0)
+                return false
+            end
+
+        #validates day for 30 day month.
+        when 4,6,9,11 && !(day < 31 && day > 0)
+            if !(day < 31 && day > 0)
+                return false
+            end
+
+        #validates day for FEB
+        when 2
+          if year % 4 == 0 && year % 100 != 0 || year % 400 == 0
+            if !(day > 0 && day < 30)
+                return false
+            end
+
+          else
+            if !(day > 0 && day < 29)
+              return false
+          end
+        end
   end
-
-
-  # validate year is an integer between 1880 and 2280
-  if year < 1880 || year > 2280
-    return false
-  end
-
-  if (months_31.include? month) && !(day < 32 && day > 0)
-      return false
-  elsif (months_30.include? month) && !(day < 31 && day > 0)
-      return false
-  end
-
-  if (year % 4 == 0 && month == 2) && (year % 100 != 0)
-      return "feb leap"
-  elsif (year % 4 == 0 && month == 2) && ( year % 100 == 0 && year % 400 == 0)
-      return "feb leap"
-  else
-      return "feb non - leap"
-  end
-
-
-
-
   return true
 end
-
-
-valid_date?(2, 31, 1880)
